@@ -7,6 +7,11 @@
 
 using namespace std;
 
+void print_usage() {
+	
+	cout << "Usage: polysort [-i in] [-o out] [-s separator] { type colnum }" << endl;
+}
+
 /// @brief Parsing arguments from command line. Throws invalid_argument exception in case of incorrect arguments.
 void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& sep, polysort::column_constraints& cols) {
 	
@@ -28,7 +33,7 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 			
 			in.open(argv[i+1], fstream::in);
 			if (in.fail()) 
-				throw invalid_argument("Input file doesn't exist or can't be opened for reading");
+				throw invalid_argument("Input file doesn't exist or can't be opened for reading.");
 
 			has_input_parsed = true;
 			i += 2;
@@ -43,7 +48,7 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 
 			out.open(argv[i + 1], fstream::out);
 			if (out.fail())
-				throw invalid_argument("Input file doesn't exist or can't be opened for writing");
+				throw invalid_argument("Output file can't be opened for writing.");
 
 			has_output_parsed = true;
 			i += 2;
@@ -72,17 +77,18 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 		if (arg.length() < 2) throw invalid_argument("Bad format of column specifier.");
 		char type_symbol = arg[0];
 
-		auto it = arg.begin();
-		for (++it; it != arg.end(); ++it) {
+		auto it = arg.cbegin();
+		// Checking because string '123abcd' is parsed as '123' to int without any warning or throw 
+		for (++it; it != arg.cend(); ++it) {
 		
-			if (!isdigit(*it)) throw invalid_argument("Bad format of column specifier");
+			if (!isdigit(*it)) throw invalid_argument("Bad format of column specifier.");
 		}
 
 		size_t index;
 		try {
 			index = stoi(arg.substr(1));
 		}
-		catch (...) { throw invalid_argument("Bad format of column specifier"); }
+		catch (...) { throw invalid_argument("Bad format of column specifier."); }
 
 		cols.push_back(pair<char, size_t>(type_symbol, index));
 		i++;
@@ -99,10 +105,11 @@ int main(const int argc, char* argv[]) {
 	try {
 		parse_args(argc, argv, input, output, delimiter, column_constraints);
 	}
-	catch (invalid_argument invalid_arg) {
+	catch (const invalid_argument& invalid_arg) {
 
 		cout << invalid_arg.what() << endl;
-		return 0;
+		print_usage();
+		return 1;
 	}
 
 	polysort::grid grid(column_constraints, delimiter);
@@ -112,10 +119,10 @@ int main(const int argc, char* argv[]) {
 		grid.sort();
 		output.is_open() ? grid.print(output) : grid.print(cout);
 	}
-	catch(polysort_exception polysort_exception) {
-		
-		
+	catch(const polysort_exception& polysort_exception) {
+				
 		cout << polysort_exception.what() << endl;
+		return 1;
 	}
 
 	return 0;
