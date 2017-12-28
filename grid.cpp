@@ -57,7 +57,7 @@ namespace polysort {
 		return row;
 	}
 
-	std::unique_ptr<cell_type> grid::get_cell(const size_t column_index, const std::string& content) {
+	std::unique_ptr<abstract_cell> grid::get_cell(const size_t column_index, const std::string& content) {
 
 		const auto ptr = restricted_columns_.find(column_index);
 		if (ptr == restricted_columns_.end()) return types_['S'](content);

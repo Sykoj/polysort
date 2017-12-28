@@ -3,14 +3,14 @@
 
 #include <vector>
 #include <memory>
-#include "cell_type.hpp"
+#include "abstract_cell.hpp"
 #include "polysort_exception.hpp"
 
 namespace polysort {
 	
 	class row {
 		
-		using val_ptr = std::unique_ptr<cell_type>;
+		using val_ptr = std::unique_ptr<abstract_cell>;
 
 	public:
 		row() = default;
@@ -33,11 +33,11 @@ namespace polysort {
 			row_.push_back(move(ptr));
 		}
 		
-		cell_type& at(const size_t index) {
+		abstract_cell& at(const size_t index) {
 			if (index >= row_.size()) throw polysort_exception("Index out of range");
 			return *row_[index];
 		}
-		const cell_type& at(const size_t index) const {
+		const abstract_cell& at(const size_t index) const {
 			if (index >= row_.size()) throw polysort_exception("Index out of range");
 			return *row_[index];
 		}

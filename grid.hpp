@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
-#include "cell_type.hpp"
+#include "abstract_cell.hpp"
 #include "polysort_exception.hpp"
 #include "row.hpp"
 #include <algorithm>
@@ -22,8 +22,8 @@ namespace polysort {
 	///
 	class grid {
 
-		/// @brief Callable target returning instance of type derived from cell_type initialized from string.
-		using type_creator = std::function<std::unique_ptr<cell_type>(const std::string&)>;
+		/// @brief Callable target returning instance of type derived from abstract_cell initialized from string.
+		using type_creator = std::function<std::unique_ptr<abstract_cell>(const std::string&)>;
 
 	public:
 		grid(const column_constraints& constraints, const char column_delimiter = ' ');
@@ -31,8 +31,8 @@ namespace polysort {
 		void print(std::ostream& output) const;
 		void create(std::istream& input);
 
-		/// @brief Allows adding new derived class from cell_type to the table.
-		/// @tparam T Class derived from polysort::cell_type having constructor with string argument.
+		/// @brief Allows adding new derived class from abstract_cell to the table.
+		/// @tparam T Class derived from polysort::abstract_cell having constructor with string argument.
 		/// @tparam C Character symbol for this type, {'N', 'S'} already in use.
 		template<class T, char C>
 		void add_type() {
@@ -52,7 +52,7 @@ namespace polysort {
 		~grid() = default;
 	private:
 		row parse_line(const std::string& line);
-		std::unique_ptr<cell_type> get_cell(const size_t column_index, const std::string& content);
+		std::unique_ptr<abstract_cell> get_cell(const size_t column_index, const std::string& content);
 		void restrict_column_type(char c, size_t index);
 		
 		std::unordered_map<size_t, char> restricted_columns_;

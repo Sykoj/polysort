@@ -22,7 +22,7 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 	size_t i = 1;
 	while (i != argc) {
 		
-		const string arg = argv[i];
+		 const string arg = argv[i];
 
 		if (arg == "-i") {
 
@@ -77,18 +77,16 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 		if (arg.length() < 2) throw invalid_argument("Bad format of column specifier.");
 		char type_symbol = arg[0];
 
-		auto it = arg.cbegin();
-		// Checking because string '123abcd' is parsed as '123' to int without any warning or throw 
-		for (++it; it != arg.cend(); ++it) {
-		
-			if (!isdigit(*it)) throw invalid_argument("Bad format of column specifier.");
-		}
-
-		size_t index;
+		size_t pos;
+		int index;
 		try {
-			index = stoi(arg.substr(1));
+			index = stoi(arg.substr(1), &pos);
 		}
 		catch (...) { throw invalid_argument("Bad format of column specifier."); }
+		// arg.size() - 1 because parsing substring starting at index 1
+		if (arg.size() - 1 != pos) throw invalid_argument("Bad format of column specifier.");
+		// indexing from 1
+		if (index <= 0) throw invalid_argument("Bad format of column specifier.");
 
 		cols.push_back(pair<char, size_t>(type_symbol, index));
 		i++;
