@@ -8,7 +8,7 @@
 class string_type final : public polysort::abstract_cell {
 
 public:
-	explicit string_type(const std::string& content) : value_(content) {}
+	string_type(const std::string& content) : value_(content) {}
 	
 	bool operator<(const abstract_cell& oper) const override {
 

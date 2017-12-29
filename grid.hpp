@@ -50,11 +50,18 @@ namespace polysort {
 		void sort(const polysort& functor) { std::sort(grid_.begin(), grid_.end(), functor); }
 
 		~grid() = default;
+
 	private:
 		row parse_line(const std::string& line);
 		std::unique_ptr<abstract_cell> get_cell(const size_t column_index, const std::string& content);
-		void restrict_column_type(char c, size_t index);
 		
+		void restrict_column_type(const char c, const size_t index) {
+
+			if (restricted_columns_.find(index) != restricted_columns_.end()) 
+				throw polysort_exception("Column already constrained by type.");
+			restricted_columns_[index] = c;
+		}
+
 		std::unordered_map<size_t, char> restricted_columns_;
 		std::unordered_map<char, type_creator> types_;
 		std::vector<row> grid_;

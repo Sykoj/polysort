@@ -10,9 +10,7 @@
 class numeric final : public polysort::abstract_cell {
 
 public:
-	explicit numeric(const std::string& value) : value_(parse(value)){
-	}
-	explicit numeric(std::string&& value) : value_(std::stoi(value)) {}
+	numeric(const std::string& value) : value_(parse(value)) {}
 
 	std::unique_ptr<abstract_cell> clone() const override {
 

@@ -47,6 +47,7 @@ namespace polysort {
 				
 				row.push_back(get_cell(++current_column, cell));
 			}
+			// situation, when delimiter is last character, insert empty string behind as last column
 			if (line[line.size() - 1] == delimiter_) {
 
 				row.push_back(get_cell(++current_column, ""));
@@ -59,19 +60,14 @@ namespace polysort {
 
 	std::unique_ptr<abstract_cell> grid::get_cell(const size_t column_index, const std::string& content) {
 
+		// find type for column
 		const auto ptr = restricted_columns_.find(column_index);
 		if (ptr == restricted_columns_.end()) return types_['S'](content);
 		const char symbol = (*ptr).second;
-
+		// get function returning unique_ptr for the type
 		const auto func = types_.find(symbol);
 		if (func == types_.end()) throw polysort_exception("Type for symbol not provided.");
 		return (*func).second(content);
-	}
-
-	void grid::restrict_column_type(const char c, const size_t index) {
-
-		if (restricted_columns_.find(index) != restricted_columns_.end()) throw polysort_exception("Column already constrained by type.");
-		restricted_columns_[index] = c;
 	}
 
 	void grid::print(std::ostream& output) const {

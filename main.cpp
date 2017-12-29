@@ -9,12 +9,21 @@ using namespace std;
 
 void print_usage() {
 	
-	cout << "Usage: polysort [-i in] [-o out] [-s separator] { type colnum }" << endl;
+	cout << "Usage: polysort [options] [column type and index...]" << endl;
+	cout << "options (not required):" << endl;
+	cout << "	-i [filename]	 Name of input file. (implicit standard input)" << endl;
+	cout << "	-o [filename]	 Name of output file. (implicit standard output)" << endl;
+	cout << "	-s[char]		 Character symbol as column separator, implicit ' '" << endl;
+	cout << "column type and index (required):" << endl;
+	cout << "	atleast one argument in format [char][column index]" << endl;
+	cout << "	char is specifing type of column, available {N - int, S - string}" << endl;
+	cout << "	column indexing is starts from 1" << endl;
 }
 
 /// @brief Parsing arguments from command line. Throws invalid_argument exception in case of incorrect arguments.
 void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& sep, polysort::column_constraints& cols) {
 	
+	// checking duplicities of options
 	bool has_input_parsed = false;
 	bool has_output_parsed = false;
 	bool has_seperator_parsed = false;
@@ -27,9 +36,9 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 		if (arg == "-i") {
 
 			if (has_input_parsed) 
-				throw invalid_argument("Can't use argument '-i' more than once.");
+				throw invalid_argument("Can't use parameter '-i' more than once.");
 			if (i + 1 == argc)
-				throw invalid_argument("File name not found after '-i' parameter.");
+				throw invalid_argument("Parameter -i can't be last parameter, input filename must be provided.");
 			
 			in.open(argv[i+1], fstream::in);
 			if (in.fail()) 
@@ -42,9 +51,9 @@ void parse_args(const int argc, char* argv[], fstream& in, fstream& out, char& s
 		else if (arg == "-o") {
 
 			if (has_output_parsed) 
-				throw invalid_argument("Can't use argument '-o' more than once.");
+				throw invalid_argument("Can't use parameter '-o' more than once.");
 			if (i + 1 == argc) 
-				throw invalid_argument("File name not found after '-o' parameter.");
+				throw invalid_argument("Parameter -o can't be last parameter, output filename must be provided.");
 
 			out.open(argv[i + 1], fstream::out);
 			if (out.fail())

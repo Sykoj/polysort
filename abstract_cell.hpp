@@ -5,9 +5,9 @@
 
 namespace polysort {
 
-	/**
-	* Abstract class for types sorted by polysort.
-	*/
+	///
+	/// Abstract class for types sorted by polysort.
+	///
 	class abstract_cell {
 
 	public:
@@ -16,7 +16,7 @@ namespace polysort {
 		virtual std::unique_ptr<abstract_cell> clone() const = 0;
 
 		/*
-		 * Wrapper friend for '<<' operator, otherwise all derived must implement it, which is not possible
+		 * Wrapper friend for '<<' operator, otherwise all derived must implement it, which is not polymorphic.
 		 * User must implement print function which is called by this wrapper.
 		 */
 		friend std::ostream& operator<<(std::ostream& out, const abstract_cell& type) {
