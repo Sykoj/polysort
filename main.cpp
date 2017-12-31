@@ -17,7 +17,7 @@ void print_usage() {
 	cout << "column type and index (required):" << endl;
 	cout << "	atleast one argument in format [char][column index]" << endl;
 	cout << "	char is specifing type of column, available {N - int, S - string}" << endl;
-	cout << "	column indexing is starts from 1" << endl;
+	cout << "	column indexing starts from 1" << endl;
 }
 
 /// @brief Parsing arguments from command line. Throws invalid_argument exception in case of incorrect arguments.
