@@ -1,9 +1,9 @@
-#include "grid.hpp"
-#include "polysort.hpp"
-#include "polysort_exception.hpp"
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "grid.hpp"
+#include "polysort.hpp"
+#include "polysort_exception.hpp"
 
 using namespace std;
 
@@ -11,9 +11,9 @@ void print_usage() {
 	
 	cout << "Usage: polysort [options] [column type and index...]" << endl;
 	cout << "options (not required):" << endl;
-	cout << "	-i [filename]	 Name of input file. (implicit standard input)" << endl;
-	cout << "	-o [filename]	 Name of output file. (implicit standard output)" << endl;
-	cout << "	-s[char]		 Character symbol as column separator, implicit ' '" << endl;
+	cout << "	-i [filename]    Name of input file. (implicit standard input)" << endl;
+	cout << "	-o [filename]    Name of output file. (implicit standard output)" << endl;
+	cout << "	-s[char]         Character symbol as column separator, implicit ' '" << endl;
 	cout << "column type and index (required):" << endl;
 	cout << "	atleast one argument in format [char][column index]" << endl;
 	cout << "	char is specifing type of column, available {N - int, S - string}" << endl;

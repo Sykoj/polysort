@@ -6,10 +6,10 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <algorithm>
 #include "abstract_cell.hpp"
 #include "polysort_exception.hpp"
 #include "row.hpp"
-#include <algorithm>
 #include "polysort.hpp"
 
 namespace polysort {

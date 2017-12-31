@@ -1,9 +1,9 @@
 #ifndef  STRING_TYPE_HPP_
 #define  STRING_TYPE_HPP_
 
-#include "abstract_cell.hpp"
 #include <string>
 #include <memory>
+#include "abstract_cell.hpp"
 
 class string_type final : public polysort::abstract_cell {
 
@@ -12,8 +12,7 @@ public:
 	
 	bool operator<(const abstract_cell& oper) const override {
 
-		const string_type op = dynamic_cast<const string_type&>(oper);
-		return value_ < op.value_;
+		return dynamic_cast<const string_type&>(oper).value_ > value_;
 	}
 
 	std::unique_ptr<abstract_cell> clone() const override {

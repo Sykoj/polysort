@@ -1,11 +1,10 @@
 #ifndef  NUMERIC_HPP_
 #define  NUMERIC_HPP_
 
-
-#include "abstract_cell.hpp"
-#include "polysort_exception.hpp"
 #include <ostream>
 #include <string>
+#include "abstract_cell.hpp"
+#include "polysort_exception.hpp"
 
 class numeric final : public polysort::abstract_cell {
 
